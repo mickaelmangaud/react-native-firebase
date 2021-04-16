@@ -1,16 +1,18 @@
 import React from 'react';
 import { useState } from 'react';
-import { View, TextInput, Button, StyleSheet} from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import { loginUserWithFirebase } from '../../redux/auth/async';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const { error } = useSelector(state => state.auth)
 
   return (
     <View style={styles.container}>
+      {error && <Text>{error}</Text>}
       <TextInput placeholder="Email" onChangeText={(txt) => setEmail(txt)}/>
       <TextInput 
         placeholder="Password"
