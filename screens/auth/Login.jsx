@@ -13,11 +13,11 @@ export default function Login() {
   return (
     <View style={styles.container}>
       {error && <Text>{error}</Text>}
-      <TextInput placeholder="Email" onChangeText={(txt) => setEmail(txt)}/>
+      <TextInput placeholder="Email" onChangeText={t => setEmail(t)}/>
       <TextInput 
         placeholder="Password"
         secureTextEntry
-        onChangeText={(txt) => setPassword(txt)}
+        onChangeText={t => setPassword(t)}
       />
       <Button title="LOGIN" onPress={() => dispatch(loginUserWithFirebase({email, password}))}/>
     </View>
