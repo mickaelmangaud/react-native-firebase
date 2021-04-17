@@ -9,17 +9,10 @@ export const registerUserWithFirebase = createAsyncThunk(
     try {
       thunkAPI.dispatch(setLoader());
       await firebase.auth().createUserWithEmailAndPassword(email, password);
-
       await firebase.firestore()
         .collection('users')
         .doc(firebase.auth().currentUser.uid)
         .set({ name, email });
-
-      thunkAPI.dispatch(setUser({
-        name,
-        email,
-        id: firebase.auth().currentUser.uid
-      }));
     } catch(e) {
       thunkAPI.dispatch(setError(e.message));
     } finally {
@@ -34,12 +27,6 @@ export const loginUserWithFirebase = createAsyncThunk(
     try {
       thunkAPI.dispatch(setLoader());
       await firebase.auth().signInWithEmailAndPassword(email, password);
-      
-      thunkAPI.dispatch(setUser({
-        email,
-        name: firebase.auth().currentUser.name,
-        id: firebase.auth().currentUser.uid
-      }));
     } catch(e) {
       thunkAPI.dispatch(setError(e.message));
     } finally {
@@ -63,21 +50,23 @@ export const logoutUserFromFirebase = createAsyncThunk(
   }
 );
 
-// export const getFirebaseUser = createAsyncThunk(
-//   'auth/getFirebaseUser',
-//   async (_, thunkAPI) => {
-//     thunkAPI.dispatch(setLoader())
-//     try {
-//       const res = firebase.auth().currentUser;
-//       thunkAPI.dispatch(setUser({
-//         email: res.email,
-//         name: res.name
-//       }))
-//     } catch(e) {
-//       console.log('FIREBASE GET USER ERROR', e);
-//       thunkAPI.dispatch(setError(e.message))
-//     } finally {
-//       thunkAPI.dispatch(hideLoader())
-//     }
-//   }
-// )
+export const getFirebaseUser = createAsyncThunk(
+  'auth/getFirebaseUser',
+  async (_, thunkAPI) => {
+    thunkAPI.dispatch(setLoader())
+    try {
+      const user = await firebase.firestore().collection('users')
+        .doc(firebase.auth().currentUser.uid).get()
+        if (user.exists) {
+          thunkAPI.dispatch(setUser({
+            id: user.id,
+            ...user.data(),
+          }));
+        }
+    } catch(e) {
+      thunkAPI.dispatch(setError(e.message))
+    } finally {
+      thunkAPI.dispatch(hideLoader())
+    }
+  }
+)

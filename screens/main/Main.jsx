@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Button, Text } from 'react-native';
 import { useSelector } from 'react-redux';
-import { logoutUserFromFirebase } from '../../redux/auth/async';
+import { logoutUserFromFirebase, getFirebaseUser } from '../../redux/auth/async';
 import { useDispatch } from 'react-redux';
 
 export default function Main() {
   const { user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getFirebaseUser());
+  }, [])
 
   return (
     <View>
