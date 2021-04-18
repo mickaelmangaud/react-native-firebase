@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { registerUserWithFirebase } from '../../redux/auth/async';
+import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUserWithFirebase, setError } from '../../redux/auth';
 
 export default function Register({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const dispatch = useDispatch();
+  const { error } = useSelector(state => state.auth);
 
   const register = async () => {
-    dispatch(registerUserWithFirebase({email, password, name}));
+    if (!email || !password) {
+      dispatch(setError('Email and password required'))
+    } else {
+      dispatch(registerUserWithFirebase({email, password, name}));
+    }
   };
 
   return (
     <View style={styles.container}>
+      {error && <Text>{error}</Text>}
       <TextInput
         placeholder="Email"
         onChangeText={txt => setEmail(txt)}
@@ -31,7 +37,7 @@ export default function Register({ navigation }) {
         title="Register"
         onPress={register}
       />
-
+      <Button onPress={() => navigation.navigate('Login')} title="I want to Login"/>
     </View>
   )
 }

@@ -1,7 +1,9 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import firebase from 'firebase';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setLoader, hideLoader } from '../ui/slice';
 import { setUser, setError, clearUser } from './slice';
+
+const wait = (ms) => new Promise(res => setTimeout(res, ms));
 
 export const registerUserWithFirebase = createAsyncThunk(
   'auth/registerUserWithFirebase',
@@ -27,6 +29,7 @@ export const loginUserWithFirebase = createAsyncThunk(
     try {
       thunkAPI.dispatch(setLoader());
       await firebase.auth().signInWithEmailAndPassword(email, password);
+      await wait(800);
     } catch(e) {
       thunkAPI.dispatch(setError(e.message));
     } finally {
@@ -42,6 +45,7 @@ export const logoutUserFromFirebase = createAsyncThunk(
     try {
       await firebase.auth().signOut();
       thunkAPI.dispatch(clearUser());
+      await wait(800);
     } catch(e) {
       thunkAPI.dispatch(setError(e.message));
     } finally {
@@ -63,6 +67,7 @@ export const getFirebaseUser = createAsyncThunk(
             ...user.data(),
           }));
         }
+      await wait(800);
     } catch(e) {
       thunkAPI.dispatch(setError(e.message))
     } finally {

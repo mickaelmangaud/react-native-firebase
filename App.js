@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
-import { Landing, Register, Login, Main } from './screens';
+import { Register, Login, Main } from './screens';
 import store from './redux';
 import firebase from 'firebase';
 
@@ -51,11 +51,8 @@ export default function App() {
       <Provider store={store}>
         <NavigationContainer>
           <AuthStack.Navigator
-            initialRouteName="Landing"
+            initialRouteName="Login"
           >
-            <AuthStack.Screen name="Landing" component={Landing}
-              options={{ headerShown: false }}
-            />
             <AuthStack.Screen name="Register" component={Register}
               options={{ headerShown: false }}
             />
