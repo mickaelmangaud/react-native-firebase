@@ -7,8 +7,8 @@ export default function Register({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const dispatch = useDispatch();
   const { error } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
 
   const register = async () => {
     if (!email || !password) {
@@ -17,6 +17,11 @@ export default function Register({ navigation }) {
       dispatch(registerUserWithFirebase({email, password, name}));
     }
   };
+
+  const navigateToLogin = () => {
+    dispatch(setError(null));
+    navigation.navigate('Login')
+  }
 
   return (
     <View style={styles.container}>
@@ -37,7 +42,7 @@ export default function Register({ navigation }) {
         title="Register"
         onPress={register}
       />
-      <Button onPress={() => navigation.navigate('Login')} title="I want to Login"/>
+      <Button onPress={navigateToLogin} title="I want to Login"/>
     </View>
   )
 }

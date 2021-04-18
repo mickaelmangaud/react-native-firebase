@@ -8,8 +8,8 @@ import { Layout } from '../../components';
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { error } = useSelector(state => state.auth);
   const dispatch = useDispatch();
-  const { error } = useSelector(state => state.auth)
 
   const login = () => {
     if (!email ||!password) {
@@ -17,6 +17,11 @@ export default function Login({ navigation }) {
     } else {
       dispatch(loginUserWithFirebase({email, password}));
     }
+  }
+
+  const navigateToRegister = () => {
+    dispatch(setError(null));
+    navigation.navigate('Register')
   }
 
   return (
@@ -29,7 +34,7 @@ export default function Login({ navigation }) {
         onChangeText={t => setPassword(t)}
       />
       <Button title="LOGIN" onPress={login}/>
-      <Button onPress={() => navigation.navigate('Register')} title="I don't have an account"/>
+      <Button onPress={navigateToRegister} title="I don't have an account"/>
     </Layout>
   )
 }
