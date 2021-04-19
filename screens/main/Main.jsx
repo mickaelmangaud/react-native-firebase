@@ -1,28 +1,26 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { View } from 'react-native'
 import { getFirebaseUser } from '../../redux/auth';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import Home from './tabs/Home';
 import Feed from './tabs/Feed';
 import Messages from './tabs/Messages';
 import Settings from './tabs/Settings';
 import Add from './Add';
+import Save from './Save';
 
 const Stack = createStackNavigator();
-const Tab = createMaterialTopTabNavigator()
+const Tab = createMaterialBottomTabNavigator()
 
-const Empty = () => <View></View>
+const Empty = () => null
 
 const TabNavigator = () =>
   <Tab.Navigator
-    tabBarPosition='bottom'
-    tabBarOptions={{
-      showLabel: false,
-      showIcon: true
+    barStyle={{
+      backgroundColor: 'white'
     }}
   >
     <Tab.Screen 
@@ -46,7 +44,7 @@ const TabNavigator = () =>
         tabPress: (event) => {
           event.preventDefault();
           navigation.navigate('Add');
-        }
+        },
       })}
       options={{
         tabBarIcon: () => <MaterialCommunityIcons name="plus-box" color="#222" size={24}/>
@@ -80,6 +78,7 @@ export default function Main() {
       <Stack.Navigator>
         <Stack.Screen name="Main" component={TabNavigator} />
         <Stack.Screen name="Add" component={Add} />
+        <Stack.Screen name="Save" component={Save} />
       </Stack.Navigator>
     </NavigationContainer>
   )

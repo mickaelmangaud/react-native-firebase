@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
@@ -38,13 +38,13 @@ export default function App() {
     });
   }, [])
 
-  if (loading) {
-    return (
-      <View>
-        <Text>LOADING ...</Text>
-      </View>
-    )
-  }
+  // if (loading) {
+  //   return (
+  //     <View>
+  //       <Text>LOADING ...</Text>
+  //     </View>
+  //   )
+  // }
 
   if (!loggedIn) {
     return (
