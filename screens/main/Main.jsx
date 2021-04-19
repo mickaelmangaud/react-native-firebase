@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getFirebaseUser } from '../../redux/auth';
+import { fetchUserPosts } from '../../redux/posts';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -8,9 +9,10 @@ import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import Home from './tabs/Home';
 import Feed from './tabs/Feed';
 import Messages from './tabs/Messages';
-import Settings from './tabs/Settings';
+import Profile from './tabs/Profile';
 import Add from './Add';
 import Save from './Save';
+import { Layout } from '../../components';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator()
@@ -58,8 +60,8 @@ const TabNavigator = () =>
       }}
     />
     <Tab.Screen
-      name="Settings"
-      component={Settings}
+      name="Profile"
+      component={Profile}
       options={{
         tabBarIcon: () => <MaterialCommunityIcons name="home" color="#222" size={24}/>
       }}
@@ -71,6 +73,7 @@ export default function Main() {
 
   useEffect(() => {
     dispatch(getFirebaseUser());
+    dispatch(fetchUserPosts());
   }, [])
 
   return (
