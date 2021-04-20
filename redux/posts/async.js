@@ -1,14 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setUserPosts } from './slice';
 
-import firebase from 'firebase';
-require('firebase/firestore');
-require('firebase/firebase-storage');
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/firebase-storage';
 
 export const savePostInFirebase = createAsyncThunk(
   'post/savePostImage',
   async ({imageURI, caption}, thunkAPI) => {
-    // thunkAPI.dispatch(setLoader());
     try {
       const response = await fetch(imageURI);
       const blob = await response.blob();
@@ -37,7 +36,7 @@ export const savePostInFirebase = createAsyncThunk(
     } catch(e) {
       console.log(e);
     } finally {
-      // thunkAPI.dispatch(hideLoader());
+      thunkAPI.dispatch(fetchUserPosts());
     }
   }
 )
@@ -55,11 +54,9 @@ export const fetchUserPosts = createAsyncThunk(
         .get();
         
         const posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        console.log('fetchUserPosts posts', posts);
         thunkAPI.dispatch(setUserPosts(posts));
     } catch(e) {
       console.log(e)
     }
-    
   }
 )

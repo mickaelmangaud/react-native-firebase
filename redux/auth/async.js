@@ -1,7 +1,8 @@
-import firebase from 'firebase';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setLoader, hideLoader } from '../ui/slice';
 import { setUser, setError, clearUser } from './slice';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const wait = (ms) => new Promise(res => setTimeout(res, ms));
 

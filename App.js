@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
 import { Register, Login, Main } from './screens';
 import store from './redux';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBt8kXLo_P2GymUxY6pTJg8vI5_Bb3NdFQ",
